@@ -1,0 +1,233 @@
+# Get All Enterprise Tags
+Source: [https://docs.gitcode.com/en/docs/apis/get-api-v-5-enterprises-enterprise-labels](https://docs.gitcode.com/en/docs/apis/get-api-v-5-enterprises-enterprise-labels)
+Category: Labels
+- Method: `GET`
+- Path: `/api/v5/enterprises/{enterprise}/labels`
+- Operation ID: `get_api_v5_enterprises_{enterprise}_labels`
+- Tags: `Labels`
+- Deprecated: `false`
+## Parameters
+| Name | In | Required | Type | Description |
+| --- | --- | --- | --- | --- |
+| enterprise | path | true | string | Repository space address (address path of the enterprise, organization, or individual) |
+| access_token | query | true | string | User authorization code |
+| page | query | false | string | The current page number |
+| per_page | query | false | string | Number of pages per page, maximum 100, default 100 |
+## Request Body
+No request body.
+## Responses
+### `200`
+Successful Response
+Headers:
+```json
+{}
+```
+#### `application/json`
+Schema:
+```json
+{
+  "items": {
+    "properties": {
+      "color": {
+        "type": "string"
+      },
+      "created_at": {
+        "type": "string"
+      },
+      "id": {
+        "type": "integer"
+      },
+      "name": {
+        "type": "string"
+      },
+      "updated_at": {
+        "type": "string"
+      }
+    },
+    "type": "object"
+  },
+  "type": "array"
+}
+```
+Example:
+```json
+{
+  "color": "#2865E0",
+  "created_at": "2024-11-22T11:25:36.769+08:00",
+  "id": 471,
+  "name": "aaaaa",
+  "updated_at": "2024-11-22T11:25:36.769+08:00"
+}
+```
+## Raw OpenAPI Operation
+```json
+{
+  "deprecated": false,
+  "description": "",
+  "info": {
+    "description": "",
+    "title": "GicodeOpenAPI",
+    "version": "1.0.0"
+  },
+  "method": "get",
+  "operationId": "get_api_v5_enterprises_{enterprise}_labels",
+  "parameters": [
+    {
+      "description": "Repository space address (address path of the enterprise, organization, or individual)",
+      "example": "",
+      "in": "path",
+      "name": "enterprise",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    },
+    {
+      "description": "User authorization code",
+      "in": "query",
+      "name": "access_token",
+      "required": true,
+      "schema": {
+        "type": "string"
+      }
+    },
+    {
+      "description": "The current page number",
+      "in": "query",
+      "name": "page",
+      "required": false,
+      "schema": {
+        "type": "string"
+      }
+    },
+    {
+      "description": "Number of pages per page, maximum 100, default 100",
+      "in": "query",
+      "name": "per_page",
+      "required": false,
+      "schema": {
+        "type": "string"
+      }
+    }
+  ],
+  "path": "/api/v5/enterprises/{enterprise}/labels",
+  "postman": {
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    },
+    "header": [
+      {
+        "key": "Accept",
+        "value": "application/json"
+      }
+    ],
+    "method": "GET",
+    "name": "Get All Enterprise Tags",
+    "url": {
+      "host": [
+        "{{baseUrl}}"
+      ],
+      "path": [
+        "api",
+        "v5",
+        "enterprises",
+        ":enterprise",
+        "labels"
+      ],
+      "query": [
+        {
+          "description": {
+            "content": "(Required) User authorization code",
+            "type": "text/plain"
+          },
+          "disabled": false,
+          "key": "access_token",
+          "value": ""
+        },
+        {
+          "description": {
+            "content": "The current page number",
+            "type": "text/plain"
+          },
+          "disabled": false,
+          "key": "page",
+          "value": ""
+        },
+        {
+          "description": {
+            "content": "Number of pages per page, maximum 100, default 100",
+            "type": "text/plain"
+          },
+          "disabled": false,
+          "key": "per_page",
+          "value": ""
+        }
+      ],
+      "variable": [
+        {
+          "description": {
+            "content": "(Required) Repository space address (address path of the enterprise, organization, or individual)",
+            "type": "text/plain"
+          },
+          "disabled": false,
+          "key": "enterprise",
+          "type": "any",
+          "value": ""
+        }
+      ]
+    }
+  },
+  "responses": {
+    "200": {
+      "content": {
+        "application/json": {
+          "example": {
+            "color": "#2865E0",
+            "created_at": "2024-11-22T11:25:36.769+08:00",
+            "id": 471,
+            "name": "aaaaa",
+            "updated_at": "2024-11-22T11:25:36.769+08:00"
+          },
+          "schema": {
+            "items": {
+              "properties": {
+                "color": {
+                  "type": "string"
+                },
+                "created_at": {
+                  "type": "string"
+                },
+                "id": {
+                  "type": "integer"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "updated_at": {
+                  "type": "string"
+                }
+              },
+              "type": "object"
+            },
+            "type": "array"
+          }
+        }
+      },
+      "description": "Successful Response",
+      "headers": {}
+    }
+  },
+  "security": [],
+  "securitySchemes": {},
+  "servers": [
+    {
+      "description": "正式环境",
+      "url": "https://api.gitcode.com"
+    }
+  ],
+  "tags": [
+    "Labels"
+  ]
+}
+```
