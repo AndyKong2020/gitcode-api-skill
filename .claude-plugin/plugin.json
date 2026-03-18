@@ -1,0 +1,16 @@
+{
+  "name": "gitcode-api",
+  "version": "1.0.0",
+  "description": "GitCode REST API documentation and helper tooling packaged as a Claude Code skill plugin",
+  "author": {
+    "name": "AndyKong",
+    "email": "andykong2020@example.com"
+  },
+  "keywords": [
+    "gitcode",
+    "api",
+    "skill",
+    "documentation",
+    "automation"
+  ]
+}

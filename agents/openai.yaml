@@ -1,3 +1,0 @@
-display_name: GitCode API
-short_description: Official GitCode REST API operations and endpoint lookup
-default_prompt: Use the official GitCode API documentation in this skill to find the correct endpoint, validate the request schema, and perform GitCode API operations safely.

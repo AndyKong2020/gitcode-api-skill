@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 import argparse
 import json
 import os
 import re
 from pathlib import Path
-
-import requests
+from urllib import error, parse, request
 
 BASE_URL = "https://api.gitcode.com"
 CATALOG_PATH = Path(__file__).resolve().parent.parent / "references" / "endpoint-catalog.json"
@@ -113,29 +114,66 @@ def command_request(args):
         )
         return
 
-    response = requests.request(
+    response = execute_http_request(
         method=args.method.upper(),
         url=url,
-        params=query,
+        query=query,
         headers=headers,
-        json=json_body,
-        data=form_body or None,
+        json_body=json_body,
+        form_body=form_body,
         timeout=args.timeout,
     )
     output = {
-        "status_code": response.status_code,
-        "headers": dict(response.headers),
-        "url": response.url,
+        "status_code": response["status_code"],
+        "headers": response["headers"],
+        "url": response["url"],
     }
-    content_type = response.headers.get("content-type", "")
+    content_type = response["headers"].get("content-type", "")
     if "application/json" in content_type:
         try:
-            output["body"] = response.json()
-        except Exception:
-            output["body_text"] = response.text
+            output["body"] = json.loads(response["body_text"])
+        except json.JSONDecodeError:
+            output["body_text"] = response["body_text"]
     else:
-        output["body_text"] = response.text
+        output["body_text"] = response["body_text"]
     print(json.dumps(output, ensure_ascii=False, indent=2))
+
+
+def execute_http_request(
+    method: str,
+    url: str,
+    query: dict[str, str],
+    headers: dict[str, str],
+    json_body: dict | list | None,
+    form_body: dict[str, str],
+    timeout: int,
+) -> dict[str, object]:
+    payload: bytes | None = None
+    encoded_query = parse.urlencode(query)
+    full_url = url if not encoded_query else f"{url}?{encoded_query}"
+    if json_body is not None:
+        payload = json.dumps(json_body, ensure_ascii=False).encode("utf-8")
+    elif form_body:
+        payload = parse.urlencode(form_body).encode("utf-8")
+
+    req = request.Request(full_url, data=payload, method=method, headers=headers)
+    try:
+        with request.urlopen(req, timeout=timeout) as response:
+            body_text = response.read().decode("utf-8", errors="replace")
+            return {
+                "status_code": response.status,
+                "headers": dict(response.headers.items()),
+                "url": response.geturl(),
+                "body_text": body_text,
+            }
+    except error.HTTPError as exc:
+        body_text = exc.read().decode("utf-8", errors="replace")
+        return {
+            "status_code": exc.code,
+            "headers": dict(exc.headers.items()),
+            "url": exc.geturl(),
+            "body_text": body_text,
+        }
 
 
 def main():
